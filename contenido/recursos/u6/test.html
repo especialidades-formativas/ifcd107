@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U6-02 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 6 · U6-02 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 6</h1></header>
+<main>
+<p>Seis preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Cómo organiza los datos el modelo relacional?",
+  o:["En tablas relacionadas mediante claves", "En documentos JSON", "En grafos", "En archivos de imagen"],c:0,
+  e:"Lo propuso Codd en 1970.",s:"6.1"},
+ {q:"¿Para qué sirve un índice en una tabla?",
+  o:["Para encontrar filas sin recorrer toda la tabla", "Para ordenar los datos alfabéticamente al mostrarlos", "Para borrar duplicados", "Para cifrar los datos"],c:0,
+  e:"Acelera las búsquedas.",s:"6.1"},
+ {q:"¿Qué hace JOIN en una consulta SQL?",
+  o:["Une filas de dos tablas por un valor común", "Suma columnas", "Borra filas", "Crea un índice"],c:0,
+  e:"En el ejemplo se unían horas y días por la fecha.",s:"6.1"},
+ {q:"¿Qué ventaja tiene guardar las previsiones en la base de datos?",
+  o:["Que las aplicaciones las consultan con SQL y se puede vigilar el error junto a la realidad", "Que el modelo aprende más", "Que ocupan menos", "Ninguna"],c:0,
+  e:"Previsiones y realidad en el mismo sitio.",s:"6.2"},
+ {q:"¿Qué familia NoSQL guarda cada registro como un documento con estructura propia?",
+  o:["Documental", "Clave-valor", "De grafos", "De columnas anchas"],c:0,
+  e:"Como MongoDB.",s:"6.3"},
+ {q:"¿Cuál es la contrapartida de los documentos?",
+  o:["La redundancia: un mismo dato puede repetirse en muchos documentos", "No admiten listas", "Son siempre más lentos", "No se pueden consultar"],c:0,
+  e:"Actualizar un dato repetido exige cambiarlo en todos.",s:"6.3"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U8-02 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 8 · U8-02 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 8</h1></header>
+<main>
+<p>Seis preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"En Adult, ¿qué proporción de mujeres predice el modelo con ingresos altos frente a hombres?",
+  o:["8,1 % frente a 25,5 %", "Lo mismo", "25,5 % frente a 8,1 %", "50 % en ambos"],c:0,
+  e:"La razón es 0,32.",s:"8.2"},
+ {q:"¿Qué exige la igualdad de oportunidades?",
+  o:["La misma sensibilidad en cada grupo", "La misma proporción de positivos", "La misma precisión", "El mismo tamaño de grupo"],c:0,
+  e:"Que quienes merecen el positivo sean reconocidos igual.",s:"8.2"},
+ {q:"¿Qué pasó al eliminar la variable sexo?",
+  o:["Las predicciones apenas cambiaron, porque otras variables la delatan", "El sesgo desapareció", "El modelo dejó de funcionar", "Mejoró mucho el acierto"],c:0,
+  e:"Un modelo deduce el sexo con un 84,8 % de acierto.",s:"8.3"},
+ {q:"¿Qué consiguieron los umbrales por grupo?",
+  o:["Igualar la sensibilidad con un coste mínimo de acierto", "Igualar todas las métricas", "Subir mucho el acierto", "Eliminar las variables sustitutas"],c:0,
+  e:"El acierto pasó de 0,874 a 0,873.",s:"8.4"},
+ {q:"¿Qué derecho recoge el artículo 22 del RGPD?",
+  o:["No ser objeto de decisiones basadas únicamente en tratamiento automatizado con efectos significativos, salvo excepciones", "Borrar cualquier dato público", "Recibir una copia del modelo", "Prohibir la IA"],c:0,
+  e:"Exige garantías como la intervención humana.",s:"8.5"},
+ {q:"Según el Reglamento de IA, ¿en qué categoría estaría un modelo para conceder créditos?",
+  o:["Alto riesgo", "Práctica prohibida", "Riesgo mínimo sin obligaciones", "Modelo de uso general"],c:0,
+  e:"La evaluación de solvencia figura entre los sistemas de alto riesgo.",s:"8.6"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

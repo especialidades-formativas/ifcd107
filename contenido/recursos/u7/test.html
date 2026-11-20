@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U7-02 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 7 · U7-02 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 7</h1></header>
+<main>
+<p>Seis preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Qué convierte el AutoML en un problema de búsqueda?",
+  o:["La elección del algoritmo y de sus hiperparámetros", "La recogida de datos", "La definición del problema de negocio", "La presentación de resultados"],c:0,
+  e:"Prueba combinaciones con un presupuesto de tiempo.",s:"7.1"},
+ {q:"¿Por qué FLAML quedó por detrás de la potenciación con pérdida de Poisson?",
+  o:["Porque no sabía que los alquileres son recuentos: no conoce el problema", "Porque tenía poco tiempo", "Porque XGBoost es malo", "Porque usó otros datos"],c:0,
+  e:"El AutoML explora bien el espacio que se le da.",s:"7.1"},
+ {q:"¿Qué guarda el registro de experimentos?",
+  o:["Datos, variables, parámetros, métricas y una huella del modelo", "Solo el mejor modelo", "Las contraseñas", "Los gráficos"],c:0,
+  e:"Permite reproducir y saber qué está en producción.",s:"7.2"},
+ {q:"¿Qué devolvió el servicio ante una hora 25?",
+  o:["Un código 422 con un mensaje de error de validación", "Una previsión normal", "Un código 500", "Nada"],c:0,
+  e:"FastAPI valida la petición antes del modelo.",s:"7.2"},
+ {q:"¿Qué es la deriva de datos?",
+  o:["El cambio en la distribución de las variables de entrada", "Un error de programación", "La pérdida de datos", "El sobreajuste"],c:0,
+  e:"La deriva de concepto cambia la relación con la respuesta.",s:"7.3"},
+ {q:"¿Por qué no basta con el valor p de la prueba de Kolmogórov-Smirnov para vigilar?",
+  o:["Porque con miles de datos cualquier diferencia pequeña es significativa", "Porque siempre vale 1", "Porque no se puede calcular", "Porque mide el error"],c:0,
+  e:"Importa la magnitud del cambio y su efecto en el error.",s:"7.3"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

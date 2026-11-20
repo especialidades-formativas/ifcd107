@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U9-04 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 9 · U9-04 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 9</h1></header>
+<main>
+<p>Doce preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Por qué se eliminó la duración de la llamada?",
+  o:["Solo se conoce después de llamar: sería una fuga de información", "Tenía muchos ausentes", "No influía", "Estaba mal medida"],c:0,
+  e:"La documentación lo advierte expresamente.",s:"9.2"},
+ {q:"¿Cómo se dedujo el año de cada llamada?",
+  o:["Del orden de las filas: cada vez que el mes retrocede empieza un año", "De una columna de fecha", "Del Euríbor", "No se dedujo"],c:0,
+  e:"Las filas están ordenadas por fecha.",s:"9.2"},
+ {q:"¿Cómo cambió la tasa de suscripción entre 2008 y 2010?",
+  o:["Del 4,8 % al 52,1 %", "No cambió", "Del 52 % al 5 %", "Del 11 % al 12 %"],c:0,
+  e:"Cambió radicalmente el contexto o la estrategia.",s:"9.2"},
+ {q:"¿Por qué no sirve el acierto como métrica en este caso?",
+  o:["Porque diciendo siempre «no» se acierta el 91 %", "Porque es difícil de calcular", "Porque solo vale para regresión", "Porque depende del umbral"],c:0,
+  e:"Se necesitan métricas de ordenación.",s:"9.3"},
+ {q:"¿Qué significa un lift del 10 % superior de 4,4?",
+  o:["Que llamando a ese 10 % se consiguen 4,4 veces más depósitos por llamada que al azar", "Que el AUC es 0,44", "Que se llama al 44 %", "Que el modelo acierta el 44 %"],c:0,
+  e:"Es la métrica que mejor entiende el área comercial.",s:"9.3"},
+ {q:"¿Qué efecto tuvo ponderar las clases?",
+  o:["Apenas cambió la ordenación, pero descalibró las probabilidades", "Mejoró mucho el AUC", "Empeoró mucho la AP", "No tuvo ningún efecto"],c:0,
+  e:"Equivale a mover el umbral.",s:"9.4"},
+ {q:"¿Qué mostró la validación temporal (entrenar con 2008, probar con 2009)?",
+  o:["Un AUC de 0,620, mucho peor que el 0,757 de la validación al azar", "Lo mismo que al azar", "Un AUC mejor", "Que no hay deriva"],c:0,
+  e:"La validación al azar puede ser muy optimista.",s:"9.4"},
+ {q:"Con los costes ilustrativos, ¿a qué fracción convenía llamar?",
+  o:["Al 18,7 % mejor puntuado", "A todos", "A nadie", "A la mitad"],c:0,
+  e:"Llamar a todos daba pérdidas.",s:"9.5"},
+ {q:"¿Qué variable fue la más importante por permutación?",
+  o:["La variación del empleo", "La edad", "El estado civil", "El préstamo personal"],c:0,
+  e:"El modelo se apoya en el momento económico.",s:"9.5"},
+ {q:"¿Qué le pasó al modelo en 2010 sin reentrenar?",
+  o:["Su AUC bajó a 0,687 y sus probabilidades se quedaron en la mitad de la tasa real", "Mejoró", "Siguió igual", "Dejó de funcionar del todo"],c:0,
+  e:"El Euríbor de 2010 estaba fuera del rango conocido.",s:"9.6"},
+ {q:"¿Qué hace la recalibración de Platt?",
+  o:["Transforma las puntuaciones en probabilidades nuevas usando pocas llamadas recientes", "Reentrena todo el modelo", "Cambia las variables", "Borra datos antiguos"],c:0,
+  e:"Corrige la calibración sin tocar el modelo.",s:"9.6"},
+ {q:"¿Qué tipo de despliegue se usó para las campañas?",
+  o:["Por lotes: puntuar la lista completa antes de cada campaña", "En tiempo real exclusivamente", "En el móvil del cliente", "Ninguno"],c:0,
+  e:"Es el más sencillo y frecuente en marketing.",s:"9.7"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

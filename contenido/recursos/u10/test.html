@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U10-02 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 10 · U10-02 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 10</h1></header>
+<main>
+<p>Ocho preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Cuánto dura un sprint en Scrum?",
+  o:["Entre una y cuatro semanas, con duración fija", "Un año", "Un día", "Lo que haga falta"],c:0,
+  e:"Al final se entrega un incremento.",s:"10.2"},
+ {q:"¿Quién decide qué se hace y en qué orden en Scrum?",
+  o:["El propietario del producto", "El Scrum Master", "El cliente final directamente", "El desarrollador más veterano"],c:0,
+  e:"Maximiza el valor para el negocio.",s:"10.2"},
+ {q:"¿Para qué sirve la retrospectiva?",
+  o:["Para que el equipo analice cómo ha trabajado y qué cambiar", "Para enseñar el producto a los clientes", "Para planificar el sprint", "Para coordinarse a diario"],c:0,
+  e:"Es un evento de mejora del proceso.",s:"10.2"},
+ {q:"¿Cuál es la primera fase del Design Thinking en su formulación en cinco fases?",
+  o:["Empatizar", "Prototipar", "Idear", "Evaluar"],c:0,
+  e:"Entender a las personas sin dar nada por supuesto.",s:"10.3"},
+ {q:"En el caso del banco, ¿cuál sería el prototipo más barato?",
+  o:["Una hoja de cálculo o una lista impresa con la tabla de deciles", "Una red neuronal profunda", "Una aplicación móvil completa", "Un servicio en la nube"],c:0,
+  e:"Probar pronto con los agentes antes de construir.",s:"10.3"},
+ {q:"¿Qué debe decir el título de un gráfico para la dirección?",
+  o:["El mensaje principal", "El nombre de las variables", "El tipo de gráfico", "La fecha de creación"],c:0,
+  e:"Por ejemplo: llamar a 2 de cada 10 consigue el 59 % de los depósitos.",s:"10.4"},
+ {q:"¿Cómo conviene empezar una presentación a la dirección?",
+  o:["Por la conclusión y lo que se propone", "Por los detalles técnicos", "Por la bibliografía", "Por el código"],c:0,
+  e:"Los detalles, después y si se piden.",s:"10.4"},
+ {q:"¿Por qué explicar los límites del modelo?",
+  o:["Porque una audiencia que los conoce usa mejor la herramienta", "Para parecer modestos", "Porque lo exige Scrum", "No conviene explicarlos"],c:0,
+  e:"Presentar el modelo como infalible daña la confianza si falla.",s:"10.4"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

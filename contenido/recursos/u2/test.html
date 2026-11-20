@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U2-02 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 2 · U2-02 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 2</h1></header>
+<main>
+<p>Ocho preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Qué tres competencias combina el científico de datos?",
+  o:["Programación, estadística y aprendizaje automático, y conocimiento del negocio", "Diseño gráfico, ventas y derecho", "Redes, electrónica y sistemas", "Contabilidad, marketing y logística"],c:0,
+  e:"Necesita manejar los datos, extraer patrones y saber qué preguntas importan.",s:"2.1"},
+ {q:"En los datos de bicicletas, ¿por qué faltan horas como las del 29 y el 30 de octubre de 2012?",
+  o:["Por el huracán Sandy: son horas sin registro, no horas sin alquileres", "Porque el sistema cerró por vacaciones", "Porque se borraron por error al publicar", "Porque fueron horas de alquiler cero"],c:0,
+  e:"Una hora que falta no es una hora sin alquileres.",s:"2.2"},
+ {q:"¿Qué problema tenía la humedad del 10 de marzo de 2011?",
+  o:["Valía 0 en todas sus horas, algo físicamente imposible", "Superaba el 100 %", "Estaba en otra unidad", "Era negativa"],c:0,
+  e:"Es un fallo del sensor o de la transmisión.",s:"2.2"},
+ {q:"¿Por qué se codifica la hora con su seno y su coseno?",
+  o:["Para que el modelo sepa que las 23 horas están junto a las 0", "Para que ocupe menos memoria", "Porque los modelos no aceptan enteros", "Para eliminar la hora"],c:0,
+  e:"Es una codificación cíclica.",s:"2.4"},
+ {q:"¿Por qué se descarta la sensación térmica?",
+  o:["Porque su correlación con la temperatura es casi 1 y no aporta nada nuevo", "Porque tiene muchos ausentes", "Porque está en otra escala", "Porque no influye en nada"],c:0,
+  e:"Variables casi idénticas son redundantes.",s:"2.4"},
+ {q:"¿Qué mide la información mutua?",
+  o:["Cuánta información aporta una variable sobre la respuesta, sea la relación lineal o no", "Solo la correlación lineal", "El número de valores distintos", "La varianza de la variable"],c:0,
+  e:"Detecta también relaciones no lineales.",s:"2.4"},
+ {q:"¿Por qué se separan entrenamiento y prueba por fecha en las bicicletas?",
+  o:["Para imitar el uso real: entrenar con el pasado y predecir el futuro", "Porque así hay más datos de prueba", "Porque el orden no importa", "Para equilibrar las clases"],c:0,
+  e:"Con datos temporales, la separación al azar es optimista.",s:"2.4"},
+ {q:"¿Para qué sirve un gráfico en el análisis exploratorio?",
+  o:["Para revelar en segundos patrones y problemas que una tabla esconde", "Para sustituir la limpieza de datos", "Solo para presentaciones finales", "Para entrenar modelos"],c:0,
+  e:"Tukey defendió los gráficos como herramienta principal del análisis exploratorio.",s:"2.3"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

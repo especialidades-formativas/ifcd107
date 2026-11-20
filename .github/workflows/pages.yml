@@ -1,0 +1,55 @@
+name: Publicar recursos en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 6 1 * *"   # el día 1 de cada mes: comprueba que todo sigue construyendo
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias (versiones fijadas)
+        run: >
+          pip install -r requirements.txt tensorflow==2.21.0 "flaml[automl]==2.8.0"
+          lightgbm==4.7.0 xgboost==2.1.4 fastapi==0.165.0 httpx==0.28.1
+      - name: Copiar junto a los cuadernos de Colab los datos que descargan
+        run: |
+          for d in contenido/colab/*/; do
+            u=$(basename "$d"); cp contenido/recursos/datos/$u/* "$d"
+          done
+      - name: Comprobar que los cuadernos se ejecutan
+        run: |
+          for nb in contenido/notebooks/*/*.ipynb contenido/colab/*/*.ipynb; do
+            echo "== $nb"
+            jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=3600 \
+              --ExecutePreprocessor.kernel_name=python3 --stdout "$nb" > /dev/null
+          done
+      - name: Borrar los archivos que generan los cuadernos al ejecutarse
+        run: git clean -fdx contenido
+      - name: Construir la web
+        run: python herramientas/construir.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  desplegar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

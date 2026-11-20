@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U4-04 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 4 · U4-04 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 4</h1></header>
+<main>
+<p>Doce preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Por qué el perceptrón no se estabilizaba con Seker y Dermason?",
+  o:["Porque con esas dos variables las clases se solapan y ninguna recta las separa", "Por la tasa de aprendizaje", "Porque faltaban datos", "Por los pesos iniciales"],c:0,
+  e:"La regla solo termina si las clases son separables.",s:"4.1"},
+ {q:"¿Qué calcula la retropropagación?",
+  o:["El gradiente de la pérdida respecto a todos los pesos, aplicando la regla de la cadena desde la salida", "La salida de la red", "El número de capas óptimo", "La tasa de aprendizaje"],c:0,
+  e:"El error de cada capa se calcula a partir del de la siguiente.",s:"4.1"},
+ {q:"¿Qué pasaba al iniciar todos los pesos a cero?",
+  o:["Todas las neuronas de una capa eran iguales y la red no aprendía (26,2 %)", "La red aprendía más rápido", "Daba error", "Mejoraba el acierto"],c:0,
+  e:"Los pesos se inician al azar para romper la simetría.",s:"4.2"},
+ {q:"¿Qué ocurrió con SGD y una tasa de aprendizaje de 3?",
+  o:["La pérdida se convirtió en nan: el entrenamiento divergió", "Fue el mejor optimizador", "Convergió en una época", "No cambió nada"],c:0,
+  e:"Ante una divergencia, lo primero es revisar la tasa.",s:"4.2"},
+ {q:"¿Por qué una red convolucional necesita menos parámetros que una densa?",
+  o:["Porque aplica el mismo filtro pequeño en todas las posiciones", "Porque no tiene pesos", "Porque usa imágenes en gris", "Porque no tiene capa de salida"],c:0,
+  e:"Una Conv2D(32, 3) sobre RGB tiene 896 parámetros.",s:"4.3"},
+ {q:"¿Para qué sirve el aumento de datos con BloodMNIST?",
+  o:["Para que la red reconozca las células en cualquier orientación y sobreajuste menos", "Para tener imágenes más grandes", "Para cambiar las etiquetas", "Para acelerar el entrenamiento"],c:0,
+  e:"Una célula girada sigue siendo la misma célula.",s:"4.3"},
+ {q:"¿Qué clase confundía más la red convolucional?",
+  o:["Los granulocitos inmaduros", "Las plaquetas", "Los eosinófilos", "Los eritroblastos"],c:0,
+  e:"Agrupan tres estadios de maduración.",s:"4.3"},
+ {q:"¿Qué ventaja tienen las LSTM y GRU sobre la red recurrente simple?",
+  o:["Sus puertas permiten conservar información durante muchos pasos sin que se desvanezca el gradiente", "No necesitan entrenamiento", "Son siempre más pequeñas", "No usan activaciones"],c:0,
+  e:"La memoria se actualiza sumando.",s:"4.4"},
+ {q:"¿Qué ventana daba casi el mejor resultado en la previsión de bicicletas?",
+  o:["72 horas (una semana apenas mejoraba)", "6 horas", "1 hora", "Ninguna mejoraba"],c:0,
+  e:"El dato clave es la misma hora del día anterior.",s:"4.4"},
+ {q:"¿Por qué falló la convolución con un vocabulario de 8000 términos?",
+  o:["Probablemente memorizaba palabras raras que no reaparecen en la prueba", "Por falta de capas", "Porque el texto era corto", "Por la función de pérdida"],c:0,
+  e:"Con 1000 términos frecuentes su F1 subió a 0,923.",s:"4.5"},
+ {q:"¿Qué mecanismo es la base de los transformers?",
+  o:["La atención", "La convolución", "La recurrencia", "El agrupamiento"],c:0,
+  e:"Cada palabra mira a todas las demás.",s:"4.5"},
+ {q:"¿Qué añade un autocodificador variacional a uno normal?",
+  o:["Obliga a los códigos a seguir una distribución conocida para poder generar imágenes nuevas", "Más capas", "Etiquetas", "Atención"],c:0,
+  e:"La pérdida incluye la divergencia de Kullback-Leibler.",s:"4.6"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

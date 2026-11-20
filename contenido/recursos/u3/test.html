@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U3-04 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 3 · U3-04 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 3</h1></header>
+<main>
+<p>Doce preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Qué tipo de problema es predecir los alquileres de bicicletas de cada hora?",
+  o:["Regresión", "Clasificación", "Agrupamiento", "Refuerzo"],c:0,
+  e:"La respuesta es un número.",s:"3.1"},
+ {q:"¿Qué indica un error de entrenamiento nulo con un error de prueba mayor?",
+  o:["Sobreajuste: el modelo ha memorizado los datos", "Que el modelo es perfecto", "Falta de datos de prueba", "Sesgo alto"],c:0,
+  e:"El árbol sin límite de profundidad tenía error 0 en entrenamiento y 56,9 en prueba.",s:"3.2"},
+ {q:"¿Por qué la regresión lineal quedó por debajo de la referencia por hora y tipo de día?",
+  o:["Porque solo suma efectos y no puede representar los dos picos de los laborables", "Porque tenía pocos datos", "Por falta de regularización", "Porque la temperatura no influye"],c:0,
+  e:"Es un caso de sesgo: modelo demasiado rígido.",s:"3.2"},
+ {q:"¿Qué hace la potenciación del gradiente?",
+  o:["Construye árboles pequeños en secuencia, cada uno corrigiendo los errores de los anteriores", "Promedia árboles profundos independientes", "Agrupa los datos en k grupos", "Busca la frontera de mayor margen"],c:0,
+  e:"Reduce poco a poco el sesgo.",s:"3.2"},
+ {q:"¿Por qué se usa TimeSeriesSplit para ajustar hiperparámetros con las bicicletas?",
+  o:["Porque respeta el orden temporal y no deja mirar el futuro", "Porque es más rápido", "Porque equilibra las clases", "Porque usa más datos"],c:0,
+  e:"La validación al azar haría trampa con datos temporales.",s:"3.2"},
+ {q:"Sin escalar las variables, ¿qué le pasaba a k vecinos con las judías?",
+  o:["El área dominaba la distancia y el acierto caía al 74 % o menos", "Mejoraba", "No cambiaba", "Daba error"],c:0,
+  e:"Los métodos de distancias son muy sensibles a la escala.",s:"3.3"},
+ {q:"¿Qué par de variedades se confundía más?",
+  o:["Sira y Dermason", "Bombay y Seker", "Cali y Horoz", "Barbunya y Bombay"],c:0,
+  e:"Casi la mitad de los errores estaban en ese par.",s:"3.3"},
+ {q:"¿Qué mide el AUC?",
+  o:["La probabilidad de que un positivo al azar reciba más puntuación que un negativo al azar", "El porcentaje de aciertos con umbral 0,5", "El número de vectores soporte", "El error cuadrático medio"],c:0,
+  e:"No depende del umbral.",s:"3.3"},
+ {q:"¿Cuántos grupos prefería la silueta en las judías?",
+  o:["Tres", "Siete", "Ocho", "Dos"],c:0,
+  e:"La estructura más nítida no coincide con las siete variedades.",s:"3.4"},
+ {q:"En los restaurantes, ¿qué resultado dio el filtrado colaborativo por vecindad?",
+  o:["Empeoró a los sesgos de usuario y restaurante por la escasez de datos", "Fue el mejor modelo", "Igualó a la factorización", "No se pudo calcular"],c:0,
+  e:"Con 1 161 valoraciones, las semejanzas son casi ruido.",s:"3.5"},
+ {q:"¿Qué hace la estrategia UCB1 en el bandido multibrazo?",
+  o:["Suma a la tasa observada una bonificación mayor cuanto menos se ha probado cada opción", "Elige siempre la mejor hasta ahora", "Elige al azar el 10 % de las veces", "Prueba todas por igual"],c:0,
+  e:"Es optimista ante la incertidumbre.",s:"3.6"},
+ {q:"¿Qué aprende la tabla Q del Q-learning?",
+  o:["La recompensa acumulada esperada de cada acción en cada estado", "La probabilidad de cada estado", "Las reglas del entorno", "El número de episodios"],c:0,
+  e:"Se corrige tras cada paso con la recompensa observada.",s:"3.6"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

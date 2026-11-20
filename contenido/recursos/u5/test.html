@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U5-02 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 5 · U5-02 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 5</h1></header>
+<main>
+<p>Seis preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Qué gráfico responde a «¿sigue la previsión a la realidad en el tiempo?»",
+  o:["Una serie temporal con las dos curvas superpuestas", "Un mapa de calor", "Un gráfico de tarta", "Un histograma de errores"],c:0,
+  e:"Superponer previsión y realidad muestra el seguimiento.",s:"5.1"},
+ {q:"¿A qué hora era mayor el error del modelo de bicicletas?",
+  o:["A las 17 horas", "A las 4 de la madrugada", "A mediodía", "A las 23 horas"],c:0,
+  e:"El error iba de 2,8 a las 4 h a 104,0 a las 17 h.",s:"5.2"},
+ {q:"¿Por qué normalizar por filas la matriz de confusión?",
+  o:["Para comparar clases de tamaños distintos con porcentajes de cada clase real", "Para que ocupe menos", "Para ocultar los errores", "Porque es obligatorio"],c:0,
+  e:"Cada fila suma 100.",s:"5.3"},
+ {q:"¿Qué principio de diseño se refiere a dedicar la tinta a los datos?",
+  o:["Menos tinta que no informa", "Un mensaje por gráfico", "Ejes honestos", "Formato vectorial"],c:0,
+  e:"Sin fondos, marcos ni rejillas innecesarios.",s:"5.4"},
+ {q:"¿Por qué no usar solo el color para distinguir series?",
+  o:["Para que el gráfico se lea en blanco y negro y por quien no distingue colores", "Porque el color es caro", "Porque Matplotlib no lo permite", "Porque confunde a los modelos"],c:0,
+  e:"Líneas discontinuas o etiquetas complementan el color.",s:"5.4"},
+ {q:"¿Dónde deben empezar las barras de un gráfico de barras?",
+  o:["En cero", "En el valor mínimo", "En la media", "Donde quede más bonito"],c:0,
+  e:"Es una regla de ejes honestos.",s:"5.4"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

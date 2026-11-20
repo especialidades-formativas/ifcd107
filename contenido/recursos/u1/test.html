@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U1-04 · Test de autoevaluación · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 1 · U1-04 · Comprueba</div>
+<h1>Test de autoevaluación de la Unidad 1</h1></header>
+<main>
+<p>Doce preguntas sobre la unidad. Al corregir verás la explicación y el apartado del libro donde
+repasarla. Tus respuestas no se guardan ni se envían a ningún sitio.</p>
+<form id="f"></form>
+<button type="button" id="b">Corregir</button>
+<p id="nota" class="res"></p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).</footer>
+<script>
+const P=[
+ {q:"¿Qué distingue a un sistema de aprendizaje automático de uno basado en reglas?",
+  o:["Aprende su comportamiento a partir de ejemplos en lugar de recibir las reglas escritas por una persona", "Siempre acierta más", "No necesita datos", "Solo funciona con imágenes"],c:0,
+  e:"Las reglas se programan; el aprendizaje automático las extrae de los datos.",s:"1.1"},
+ {q:"¿Qué hace la búsqueda A* frente a la búsqueda en anchura?",
+  o:["Usa una estimación de lo que falta para llegar a la meta y explora primero lo más prometedor", "Explora todos los estados por niveles", "Elige caminos al azar", "Solo funciona en juegos de dos jugadores"],c:0,
+  e:"La heurística guía la búsqueda hacia la meta.",s:"1.1"},
+ {q:"¿Para qué sirve un cuaderno Jupyter?",
+  o:["Para mezclar texto, código y resultados en un mismo documento con celdas ejecutables", "Para compilar programas en C", "Para guardar bases de datos", "Para dibujar diagramas de flujo"],c:0,
+  e:"Es la forma habitual de explorar datos y compartir análisis.",s:"1.2"},
+ {q:"¿Qué tipo de Python es más adecuado para guardar pares clave-valor?",
+  o:["El diccionario", "La tupla", "La cadena", "El número entero"],c:0,
+  e:"Los diccionarios asocian cada clave con un valor.",s:"1.3"},
+ {q:"¿Por qué se usa NumPy en lugar de listas de Python para el cálculo numérico?",
+  o:["Porque opera con arrays completos de forma vectorizada y mucho más rápida", "Porque las listas no admiten números", "Porque NumPy no necesita memoria", "Porque es la única forma de leer archivos"],c:0,
+  e:"Las operaciones vectorizadas se ejecutan en código compilado.",s:"1.4"},
+ {q:"En el descenso de gradiente, ¿qué ocurre si la tasa de aprendizaje es demasiado grande?",
+  o:["Los pasos se pasan del mínimo y el método puede divergir", "El método converge siempre más deprisa", "El gradiente se anula", "No cambia nada"],c:0,
+  e:"Una tasa excesiva hace oscilar o divergir los parámetros.",s:"1.4"},
+ {q:"¿Qué permite calcular el teorema de Bayes?",
+  o:["La probabilidad de una causa a partir de lo observado, combinando la verosimilitud con la probabilidad previa", "La media de una muestra", "La derivada de una función", "El tamaño de un archivo"],c:0,
+  e:"Invierte el sentido de una probabilidad condicionada.",s:"1.4"},
+ {q:"¿Qué muestra la paradoja de Simpson?",
+  o:["Que una relación observada en los datos agregados puede invertirse al separarlos por grupos", "Que la media siempre es mayor que la mediana", "Que los gráficos engañan siempre", "Que los datos pequeños no sirven"],c:0,
+  e:"Hay que considerar las variables que agrupan los datos.",s:"1.5"},
+ {q:"¿Qué indica un valor p muy pequeño en un contraste?",
+  o:["Que los datos serían muy improbables si la hipótesis nula fuera cierta", "Que la hipótesis nula es falsa con certeza", "Que el efecto es grande", "Que el tamaño de la muestra es pequeño"],c:0,
+  e:"El valor p no mide la magnitud del efecto.",s:"1.5"},
+ {q:"¿Qué métodos comparten casi todos los modelos de scikit-learn?",
+  o:["fit para entrenar y predict para predecir", "load y save", "open y close", "train y run"],c:0,
+  e:"La interfaz común permite cambiar de modelo con una línea.",s:"1.6"},
+ {q:"¿Por qué se separan los datos en entrenamiento y prueba?",
+  o:["Para medir cómo se comportará el modelo con datos que no ha visto", "Para entrenar más deprisa", "Para tener menos datos", "Porque scikit-learn lo exige"],c:0,
+  e:"El error de entrenamiento es optimista.",s:"1.6"},
+ {q:"En el caso práctico de los pingüinos, ¿qué se pretende predecir?",
+  o:["El sexo de los pingüinos que no lo tienen registrado", "La especie a partir del sexo", "La isla de cada pingüino", "La temperatura del agua"],c:0,
+  e:"El modelo se entrena con los pingüinos de sexo conocido.",s:"1.7"}
+];
+P.forEach((p,i)=>{const k=(i*3+1)%4;p.o=[...p.o.slice(k),...p.o.slice(0,k)];p.c=(p.c-k+4)%4});  // reparte la respuesta correcta
+const f=document.getElementById('f');
+P.forEach((p,i)=>{const d=document.createElement('div');d.className='preg';
+ d.innerHTML='<p>'+(i+1)+'. '+p.q+'</p>'+p.o.map((o,j)=>'<label><input type="radio" name="p'+i+'" value="'+j+'"> '+o+'</label>').join('')+'<div class="fb" id="fb'+i+'"></div>';
+ f.append(d)});
+document.getElementById('b').onclick=()=>{let ok=0;
+ P.forEach((p,i)=>{const s=f.querySelector('input[name=p'+i+']:checked');const fb=document.getElementById('fb'+i);
+  const bien=s&&+s.value===p.c;if(bien)ok++;
+  fb.innerHTML=(bien?'<span class="ok">Correcto.</span> ':'<span class="mal">'+(s?'No es correcto.':'Sin responder.')+'</span> Respuesta: '+p.o[p.c]+'. ')+p.e+' <em>Repasa el apartado '+p.s+'.</em>'});
+ document.getElementById('nota').textContent='Aciertos: '+ok+' de '+P.length;};
+</script>
+</body>
+</html>

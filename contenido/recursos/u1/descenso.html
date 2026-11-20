@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U1-02 · El descenso de gradiente paso a paso · IFCD107</title>
+<link rel="stylesheet" href="../estilo.css">
+<style>
+.paneles{display:flex;flex-wrap:wrap;gap:1em}
+canvas{border:1px solid #ccc;background:#fff;max-width:100%}
+.ctl{margin:.6em 0}.ctl label{margin-right:1em}
+#estado{font-family:monospace}
+</style>
+</head>
+<body>
+<header><div class="cod">IFCD107 · Unidad 1 · U1-02 · Explora</div>
+<h1>El descenso de gradiente paso a paso</h1></header>
+<main>
+<p>La regresión de la masa de los pingüinos (en kg) sobre la longitud de la aleta estandarizada,
+como en el apartado 1.4 del libro (333 pingüinos con todas las medidas). A la izquierda, los datos y
+la recta actual; a la derecha, el error cuadrático medio según los dos parámetros (más oscuro, menor
+error) y el camino que recorre el descenso de gradiente desde (0, 0).</p>
+<div class="ctl">
+<label>Tasa de aprendizaje: <input type="range" id="tasa" min="0" max="1.2" step="0.01" value="0.1">
+<strong id="vt">0.10</strong></label>
+<button id="uno">Un paso</button> <button id="diez">10 pasos</button>
+<button id="reiniciar">Reiniciar</button>
+</div>
+<p id="estado"></p>
+<div class="paneles"><canvas id="c1" width="420" height="320"></canvas>
+<canvas id="c2" width="420" height="320"></canvas></div>
+<p><strong>Prueba.</strong> Con 0,01 avanza muy despacio; con 0,1 llega en unos 20 pasos; con 0,9
+oscila de un lado a otro del mínimo; por encima de 1 diverge. ¿A partir de qué tasa exacta deja
+de converger?</p>
+</main>
+<footer>Recurso complementario del libro <em>Especialista en Inteligencia Artificial</em> (IFCD107).
+Datos: palmerpenguins (Horst, Hill y Gorman, 2020), CC0.</footer>
+<script>
+const D=[[181, 3750], [186, 3800], [195, 3250], [193, 3450], [190, 3650], [181, 3625], [195, 4675], [182, 3200], [191, 3800], [198, 4400], [185, 3700], [195, 3450], [197, 4500], [184, 3325], [194, 4200], [174, 3400], [180, 3600], [189, 3800], [185, 3950], [180, 3800], [187, 3800], [183, 3550], [187, 3200], [172, 3150], [180, 3950], [178, 3250], [178, 3900], [188, 3300], [184, 3900], [195, 3325], [196, 4150], [190, 3950], [180, 3550], [181, 3300], [184, 4650], [182, 3150], [195, 3900], [186, 3100], [196, 4400], [185, 3000], [190, 4600], [182, 3425], [190, 3450], [191, 4150], [186, 3500], [188, 4300], [190, 3450], [200, 4050], [187, 2900], [191, 3700], [186, 3550], [193, 3800], [181, 2850], [194, 3750], [185, 3150], [195, 4400], [185, 3600], [192, 4050], [184, 2850], [192, 3950], [195, 3350], [188, 4100], [190, 3050], [198, 4450], [190, 3600], [190, 3900], [196, 3550], [197, 4150], [190, 3700], [195, 4250], [191, 3700], [184, 3900], [187, 3550], [195, 4000], [189, 3200], [196, 4700], [187, 3800], [193, 4200], [191, 3350], [194, 3550], [190, 3800], [189, 3500], [189, 3950], [190, 3600], [202, 3550], [205, 4300], [185, 3400], [186, 4450], [187, 3300], [208, 4300], [190, 3700], [196, 4350], [178, 2900], [192, 4100], [192, 3725], [203, 4725], [183, 3075], [190, 4250], [193, 2925], [184, 3550], [199, 3750], [190, 3900], [181, 3175], [197, 4775], [198, 3825], [191, 4600], [193, 3200], [197, 4275], [191, 3900], [196, 4075], [188, 2900], [199, 3775], [189, 3350], [189, 3325], [187, 3150], [198, 3500], [176, 3450], [202, 3875], [186, 3050], [199, 4000], [191, 3275], [195, 4300], [191, 3050], [210, 4000], [190, 3325], [197, 3500], [193, 3500], [199, 4475], [187, 3425], [190, 3900], [191, 3175], [200, 3975], [185, 3400], [193, 4250], [193, 3400], [187, 3475], [188, 3050], [190, 3725], [192, 3000], [185, 3650], [190, 4250], [184, 3475], [195, 3450], [193, 3750], [187, 3700], [201, 4000], [211, 4500], [230, 5700], [210, 4450], [218, 5700], [215, 5400], [210, 4550], [211, 4800], [219, 5200], [209, 4400], [215, 5150], [214, 4650], [216, 5550], [214, 4650], [213, 5850], [210, 4200], [217, 5850], [210, 4150], [221, 6300], [209, 4800], [222, 5350], [218, 5700], [215, 5000], [213, 4400], [215, 5050], [215, 5000], [215, 5100], [215, 5650], [210, 4600], [220, 5550], [222, 5250], [209, 4700], [207, 5050], [230, 6050], [220, 5150], [220, 5400], [213, 4950], [219, 5250], [208, 4350], [208, 5350], [208, 3950], [225, 5700], [210, 4300], [216, 4750], [222, 5550], [217, 4900], [210, 4200], [225, 5400], [213, 5100], [215, 5300], [210, 4850], [220, 5300], [210, 4400], [225, 5000], [217, 4900], [220, 5050], [208, 4300], [220, 5000], [208, 4450], [224, 5550], [208, 4200], [221, 5300], [214, 4400], [231, 5650], [219, 4700], [230, 5700], [229, 5800], [220, 4700], [223, 5550], [216, 4750], [221, 5000], [221, 5100], [217, 5200], [216, 4700], [230, 5800], [209, 4600], [220, 6000], [215, 4750], [223, 5950], [212, 4625], [221, 5450], [212, 4725], [224, 5350], [212, 4750], [228, 5600], [218, 4600], [218, 5300], [212, 4875], [230, 5550], [218, 4950], [228, 5400], [212, 4750], [224, 5650], [214, 4850], [226, 5200], [216, 4925], [222, 4875], [203, 4625], [225, 5250], [219, 4850], [228, 5600], [215, 4975], [228, 5500], [215, 5500], [210, 4700], [219, 5500], [208, 4575], [209, 5500], [216, 5000], [229, 5950], [213, 4650], [230, 5500], [217, 4375], [230, 5850], [222, 6000], [214, 4925], [215, 4850], [222, 5750], [212, 5200], [213, 5400], [192, 3500], [196, 3900], [193, 3650], [188, 3525], [197, 3725], [198, 3950], [178, 3250], [197, 3750], [195, 4150], [198, 3700], [193, 3800], [194, 3775], [185, 3700], [201, 4050], [190, 3575], [201, 4050], [197, 3300], [181, 3700], [190, 3450], [195, 4400], [181, 3600], [191, 3400], [187, 2900], [193, 3800], [195, 3300], [197, 4150], [200, 3400], [200, 3800], [191, 3700], [205, 4550], [187, 3200], [201, 4300], [187, 3350], [203, 4100], [195, 3600], [199, 3900], [195, 3850], [210, 4800], [192, 2700], [205, 4500], [210, 3950], [187, 3650], [196, 3550], [196, 3500], [196, 3675], [201, 4450], [190, 3400], [212, 4300], [187, 3250], [198, 3675], [199, 3325], [201, 3950], [193, 3600], [203, 4050], [187, 3350], [197, 3450], [191, 3250], [203, 4050], [202, 3800], [194, 3525], [206, 3950], [189, 3650], [195, 3650], [207, 4000], [202, 3400], [193, 3775], [210, 4100], [198, 3775]];
+const fa=D.map(d=>d[0]),n=D.length,m=fa.reduce((a,b)=>a+b)/n;
+const s=Math.sqrt(fa.reduce((a,b)=>a+(b-m)**2,0)/(n-1));
+const X=fa.map(v=>(v-m)/s),Y=D.map(d=>d[1]/1000);
+let b0=0,b1=0,paso=0,camino=[[0,0]];
+const perd=(a,b)=>X.reduce((t,x,i)=>t+(a+b*x-Y[i])**2,0)/n;
+function avanzar(k){const t=+document.getElementById('tasa').value;
+ for(let j=0;j<k;j++){let g0=0,g1=0;for(let i=0;i<n;i++){const e=b0+b1*X[i]-Y[i];g0+=e;g1+=e*X[i]}
+  b0-=t*2*g0/n;b1-=t*2*g1/n;paso++;camino.push([b0,b1]);
+  if(!isFinite(b0)||Math.abs(b0)>1e6)break}dibujar()}
+function dibujar(){
+ const c=document.getElementById('c1').getContext('2d');c.clearRect(0,0,420,320);
+ const px=x=>40+(x+3)/6*370,py=y=>300-(y-2)/5*280;
+ c.fillStyle='#1f5fa8';X.forEach((x,i)=>{c.beginPath();c.arc(px(x),py(Y[i]),2,0,7);c.fill()});
+ c.strokeStyle='#e07b00';c.lineWidth=2;c.beginPath();c.moveTo(px(-3),py(b0-3*b1));c.lineTo(px(3),py(b0+3*b1));c.stroke();
+ c.fillStyle='#333';c.font='11px sans-serif';c.fillText('aleta estandarizada',170,316);c.fillText('masa (kg)',2,12);
+ const d=document.getElementById('c2').getContext('2d');const im=d.createImageData(420,320);
+ const A=a=>-1+a/420*7,B=b=>2.5-b/320*4;
+ for(let i=0;i<420;i+=4)for(let j=0;j<320;j+=4){const v=Math.log(perd(A(i),B(j))+1e-3);
+  const g=Math.max(0,Math.min(255,40+v*45));for(let u=0;u<4;u++)for(let w=0;w<4;w++){const k=((j+w)*420+i+u)*4;im.data[k]=g;im.data[k+1]=g;im.data[k+2]=255;im.data[k+3]=255}}
+ d.putImageData(im,0,0);
+ const qx=a=>(a+1)/7*420,qy=b=>(2.5-b)/4*320;
+ d.strokeStyle='#e07b00';d.lineWidth=1.5;d.beginPath();camino.forEach((p,i)=>{const x=qx(p[0]),y=qy(p[1]);i?d.lineTo(x,y):d.moveTo(x,y)});d.stroke();
+ d.fillStyle='#e07b00';camino.forEach(p=>{d.beginPath();d.arc(qx(p[0]),qy(p[1]),2.5,0,7);d.fill()});
+ d.fillStyle='#000';d.font='11px sans-serif';d.fillText('β0 (horizontal) de −1 a 6 · β1 (vertical) de −1,5 a 2,5',8,314);
+ document.getElementById('estado').textContent='paso '+paso+' · β0 = '+b0.toFixed(3)+' · β1 = '+b1.toFixed(3)+' · error cuadrático medio = '+perd(b0,b1).toPrecision(4)}
+document.getElementById('tasa').oninput=e=>document.getElementById('vt').textContent=(+e.target.value).toFixed(2);
+document.getElementById('uno').onclick=()=>avanzar(1);
+document.getElementById('diez').onclick=()=>avanzar(10);
+document.getElementById('reiniciar').onclick=()=>{b0=b1=0;paso=0;camino=[[0,0]];dibujar()};
+dibujar();
+</script>
+</body>
+</html>
