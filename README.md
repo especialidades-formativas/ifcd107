@@ -12,4 +12,4 @@ La tabla `recursos.csv` es la fuente única: `herramientas/construir.py` genera 
 Los cuadernos de Colab descargan sus datos de `contenido/recursos/datos/`, publicados en la web.
 El origen y la licencia de cada archivo de datos se explican en el `LEEME.md` de su carpeta.
 
-Web publicada: <https://especialidades-formativas.github.io/ifcd107/>
+Web publicada: <https://machinelearning-formacion.github.io/ifcd107/>

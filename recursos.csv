@@ -1,29 +1,29 @@
 codigo;tipo;titulo;destino
 u1-01;ejecuta;Python, NumPy, matemáticas y estadística con los pingüinos;lab/notebooks/index.html?path=u1/python_mates_estadistica.ipynb
 u1-02;explora;El descenso de gradiente paso a paso;recursos/u1/descenso.html
-u1-03;ejecuta;IA clásica, scikit-learn y TensorFlow con los pingüinos (Colab);https://colab.research.google.com/github/especialidades-formativas/ifcd107/blob/main/contenido/colab/u1/ia_clasica_sklearn_tf.ipynb
+u1-03;ejecuta;IA clásica, scikit-learn y TensorFlow con los pingüinos (Colab);https://colab.research.google.com/github/machinelearning-formacion/ifcd107/blob/main/contenido/colab/u1/ia_clasica_sklearn_tf.ipynb
 u1-04;compruebalo;Test de autoevaluación de la Unidad 1;recursos/u1/test.html
 u2-01;ejecuta;Explorar, visualizar y preparar los datos de las bicicletas;lab/notebooks/index.html?path=u2/explorar_bicis.ipynb
 u2-02;compruebalo;Test de autoevaluación de la Unidad 2;recursos/u2/test.html
 u3-01;ejecuta;Regresión: modelos para los alquileres de bicicletas;lab/notebooks/index.html?path=u3/regresion_bicis.ipynb
 u3-02;ejecuta;Clasificación y agrupamiento de las judías secas;lab/notebooks/index.html?path=u3/clasificacion_judias.ipynb
-u3-03;ejecuta;Recomendación de restaurantes y aprendizaje por refuerzo;https://colab.research.google.com/github/especialidades-formativas/ifcd107/blob/main/contenido/colab/u3/recomendacion_refuerzo.ipynb
+u3-03;ejecuta;Recomendación de restaurantes y aprendizaje por refuerzo;https://colab.research.google.com/github/machinelearning-formacion/ifcd107/blob/main/contenido/colab/u3/recomendacion_refuerzo.ipynb
 u3-04;compruebalo;Test de autoevaluación de la Unidad 3;recursos/u3/test.html
-u4-01;ejecuta;De la neurona a Keras: perceptrón, retropropagación y optimizadores;https://colab.research.google.com/github/especialidades-formativas/ifcd107/blob/main/contenido/colab/u4/neurona_keras.ipynb
-u4-02;ejecuta;Redes convolucionales con las células de la sangre (Colab);https://colab.research.google.com/github/especialidades-formativas/ifcd107/blob/main/contenido/colab/u4/convolucionales_sangre.ipynb
-u4-03;ejecuta;Series temporales, textos y autocodificadores (Colab);https://colab.research.google.com/github/especialidades-formativas/ifcd107/blob/main/contenido/colab/u4/secuencias_texto_autocodificadores.ipynb
+u4-01;ejecuta;De la neurona a Keras: perceptrón, retropropagación y optimizadores;https://colab.research.google.com/github/machinelearning-formacion/ifcd107/blob/main/contenido/colab/u4/neurona_keras.ipynb
+u4-02;ejecuta;Redes convolucionales con las células de la sangre (Colab);https://colab.research.google.com/github/machinelearning-formacion/ifcd107/blob/main/contenido/colab/u4/convolucionales_sangre.ipynb
+u4-03;ejecuta;Series temporales, textos y autocodificadores (Colab);https://colab.research.google.com/github/machinelearning-formacion/ifcd107/blob/main/contenido/colab/u4/secuencias_texto_autocodificadores.ipynb
 u4-04;compruebalo;Test de autoevaluación de la Unidad 4;recursos/u4/test.html
 u5-01;ejecuta;Gráficos de previsiones y matrices de confusión;lab/notebooks/index.html?path=u5/graficos_resultados.ipynb
 u5-02;compruebalo;Test de autoevaluación de la Unidad 5;recursos/u5/test.html
 u6-01;ejecuta;SQLite, consultas SQL y documentos JSON;lab/notebooks/index.html?path=u6/bases_de_datos.ipynb
 u6-02;compruebalo;Test de autoevaluación de la Unidad 6;recursos/u6/test.html
-u7-01;ejecuta;AutoML con FLAML, registro de experimentos y API con FastAPI;https://colab.research.google.com/github/especialidades-formativas/ifcd107/blob/main/contenido/colab/u7/automl_mlops.ipynb
+u7-01;ejecuta;AutoML con FLAML, registro de experimentos y API con FastAPI;https://colab.research.google.com/github/machinelearning-formacion/ifcd107/blob/main/contenido/colab/u7/automl_mlops.ipynb
 u7-02;compruebalo;Test de autoevaluación de la Unidad 7;recursos/u7/test.html
 u8-01;ejecuta;Equidad de un clasificador con los datos del censo;lab/notebooks/index.html?path=u8/equidad_censo.ipynb
 u8-02;compruebalo;Test de autoevaluación de la Unidad 8;recursos/u8/test.html
 u9-01;ejecuta;Caso práctico (1): comprensión de los datos de telemarketing;lab/notebooks/index.html?path=u9/caso_datos.ipynb
-u9-02;ejecuta;Caso práctico (2): preparación y modelado;https://colab.research.google.com/github/especialidades-formativas/ifcd107/blob/main/contenido/colab/u9/caso_modelado.ipynb
-u9-03;ejecuta;Caso práctico (3): evaluación, futuro y despliegue;https://colab.research.google.com/github/especialidades-formativas/ifcd107/blob/main/contenido/colab/u9/caso_evaluacion_despliegue.ipynb
+u9-02;ejecuta;Caso práctico (2): preparación y modelado;https://colab.research.google.com/github/machinelearning-formacion/ifcd107/blob/main/contenido/colab/u9/caso_modelado.ipynb
+u9-03;ejecuta;Caso práctico (3): evaluación, futuro y despliegue;https://colab.research.google.com/github/machinelearning-formacion/ifcd107/blob/main/contenido/colab/u9/caso_evaluacion_despliegue.ipynb
 u9-04;compruebalo;Test de autoevaluación de la Unidad 9;recursos/u9/test.html
 u10-01;ejecuta;Un gráfico con mensaje para presentar resultados;lab/notebooks/index.html?path=u10/grafico_con_mensaje.ipynb
 u10-02;compruebalo;Test de autoevaluación de la Unidad 10;recursos/u10/test.html
