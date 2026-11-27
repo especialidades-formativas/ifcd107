@@ -7,4 +7,4 @@
 | `judias.csv` | Dry Bean (Koklu y Ozkan, 2020): hoja única de `Dry_Bean_Dataset.xlsx` guardada como CSV, sin cambios en los valores | CC BY 4.0, https://doi.org/10.24432/C50S4B |
 | `sms2.tsv` | SMS Spam Collection (Almeida, Gómez Hidalgo y Yamakami, 2011): etiqueta y texto separados por tabulador, sin cambios | CC BY 4.0, https://doi.org/10.24432/C5CC84 |
 
-Los archivos `.py` (`bicis.py`, `keras_judias.py`, `sangre.py`, `sms.py`, `ventanas.py`) son módulos auxiliares de los listados del libro.
+Los archivos `.py` (`bicis.py`, `keras_judias.py`, `sangre.py`, `sms.py`, `ventanas.py`) son módulos auxiliares de los listados de la Unidad 4.
